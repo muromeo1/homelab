@@ -22,6 +22,11 @@ spec:
           env:
             - name: DOMAIN
               value: "https://vault.casaos-31.com"
+            - name: ADMIN_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: vaultwarden-admin-token
+                  key: ADMIN_TOKEN
           volumeMounts:
             - name: vaultwarden-data
               mountPath: /data
