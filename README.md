@@ -4,7 +4,8 @@ This repo keeps the architecture and the information of my own homelab.
 
 ## Description
 
-![image](https://github.com/user-attachments/assets/30621dc7-65e3-42c4-ba52-0aa4c9820b00)
+![image](https://github.com/user-attachments/assets/aa0b8be5-3fa5-4024-9e0b-fab78de5579a)
+
 
 My "cluster" specs:
 - Asus VivoBook - X512JP
