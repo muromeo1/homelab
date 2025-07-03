@@ -1,0 +1,19 @@
+deployment:
+  name: grafana
+  replicas: 1
+  image: grafana/grafana:latest
+  mountName: grafana-data
+  mountPath: /var/lib/grafana
+
+service:
+  internalPort: 3000
+  externalPort: 30030
+
+pv:
+  name: grafana-pv
+  path: /var/mnt/data/grafana
+  storage: 1Gi
+
+pvc:
+  name: grafana-pvc
+  storage: 1Gi
