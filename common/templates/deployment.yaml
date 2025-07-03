@@ -19,21 +19,29 @@ spec:
           image: {{ .Values.deployment.image }}
           ports:
             - containerPort: {{ .Values.service.internalPort }}
-      env:
-        {{- range .Values.env }}
-        - name: {{ .name }}
-          value: {{ .value | quote }}
-        {{- end }}
-        {{- range .Values.envSecrets }}
-        - name: {{ .name }}
-          valueFrom:
-            secretKeyRef:
-              name: {{ .secretKeyRef.name }}
-              key: {{ .secretKeyRef.key }}
-        {{- end }}
+          env:
+            {{- range .Values.deployment.env }}
+            - name: {{ .name }}
+              value: {{ .value | quote }}
+            {{- end }}
+            {{- range .Values.deployment.envSecrets }}
+            - name: {{ .name }}
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .secretKeyRef.name }}
+                  key: {{ .secretKeyRef.key }}
+            {{- end }}
           volumeMounts:
             - name: {{ .Values.deployment.mountName }}
               mountPath: {{ .Values.deployment.mountPath }}
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+            runAsNonRoot: true
+            seccompProfile:
+              type: RuntimeDefault
       volumes:
         - name: {{ .Values.deployment.mountName }}
           persistentVolumeClaim:

@@ -1,0 +1,31 @@
+deployment:
+  name: vaultwarden
+  replicas: 1
+  image: vaultwarden/server:latest
+  mountName: vaultwarden-data
+  mountPath: /data
+  env:
+    - name: DOMAIN
+      value: "https://vault.casaos-31.com"
+  envSecrets:
+    - name: ADMIN_TOKEN
+      secretKeyRef:
+        name: vaultwarden-admin-token
+        key: ADMIN_TOKEN
+
+service:
+  internalPort: 80
+
+ingress:
+  host: vault.casaos-31.com
+
+pv:
+  name: vaultwarden-pv
+  path: /var/mnt/data/vaultwarden
+  storage: 2Gi
+  accessModes: ReadWriteOnce
+
+pvc:
+  name: vaultwarden-pvc
+  storage: 2Gi
+  accessModes: ReadWriteOnce

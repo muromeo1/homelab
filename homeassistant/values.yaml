@@ -4,12 +4,6 @@ deployment:
   image: homeassistant/home-assistant:latest
   mountName: homeassistant-data
   mountPath: /config
-  env:
-    - name: ENV_VARIABLE
-      value: var
-  envSecrets:
-    - name: something-secret
-      key: SOMETHING_URL
 
 service:
   internalPort: 8123
@@ -21,7 +15,9 @@ pv:
   name: homeassistant-pv
   path: /var/mnt/data/homeassistant
   storage: 2Gi
+  accessModes: ReadWriteOnce
 
 pvc:
   name: homeassistant-pvc
   storage: 2Gi
+  accessModes: ReadWriteOnce
