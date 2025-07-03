@@ -28,19 +28,3 @@ Currently, I'm running:
 
 - 🔒 [Vault](https://vault.casaos-31.com/#/login)
 - 🏠 [Homeassistant](https://homeassistant.casaos-31.com/)
-
-## Deploy
-
-In order to get things easier, I use [Helm](https://helm.sh/) to deploy my applications, so I can easily manage them.
-
-First install:
-
-```bash
-helm install -f <application>/values.yaml <application name> ./common/
-```
-
-Update configuration:
-
-```bash
-helm upgrade -f <application>/values.yaml <application name> ./common/
-```

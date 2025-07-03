@@ -7,7 +7,9 @@ deployment:
 
 service:
   internalPort: 3000
-  externalPort: 30030
+
+ingress:
+  host: grafana.casaos-31.com
 
 pv:
   name: grafana-pv
