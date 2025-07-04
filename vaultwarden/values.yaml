@@ -12,6 +12,7 @@ deployment:
       secretKeyRef:
         name: vaultwarden-admin-token
         key: ADMIN_TOKEN
+  runAsNonRoot: false
 
 service:
   internalPort: 80

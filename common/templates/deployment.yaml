@@ -39,7 +39,7 @@ spec:
             capabilities:
               drop:
                 - ALL
-            runAsNonRoot: true
+            runAsNonRoot: {{ default true .Values.deployment.runAsNonRoot }}
             seccompProfile:
               type: RuntimeDefault
       volumes:
