@@ -40,8 +40,19 @@ spec:
               drop:
                 - ALL
             runAsNonRoot: {{ default true .Values.deployment.runAsNonRoot }}
+            {{- if .Values.deployment.runAsUser }}
+            runAsUser: {{ .Values.deployment.runAsUser }}
+            {{- end }}
+            {{- if .Values.deployment.runAsGroup }}
+            {{ end }}
             seccompProfile:
               type: RuntimeDefault
+          {{- if .Values.deployment.args }}
+          args:
+            {{- range .Values.deployment.args }}
+            - {{ . }}
+            {{- end }}
+          {{- end }}
       volumes:
         - name: {{ .Values.deployment.mountName }}
           persistentVolumeClaim:

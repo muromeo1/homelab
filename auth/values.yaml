@@ -1,0 +1,40 @@
+deployment:
+  name: auth
+  replicas: 1
+  image: muromeo/auth:1.1.0
+  mountName: auth-data
+  mountPath: /data
+  env:
+    - name: MODE
+      value: release
+  envSecrets:
+    - name: POSTGRES_URL
+      secretKeyRef:
+        name: postgres-secret
+        key: POSTGRES_URL
+    - name: JWT_SECRET
+      secretKeyRef:
+        name: jwt-secret
+        key: JWT_SECRET
+  args:
+    [
+      "--database-url=$(POSTGRES_URL)",
+      "--mode=$(MODE)",
+      "--secret=$(JWT_SECRET)",
+    ]
+  runAsUser: 65532
+
+service:
+  internalPort: 8080
+
+ingress:
+  host: auth.casaos-31.com
+
+pv:
+  name: auth-pv
+  path: /var/mnt/data/auth
+  storage: 1Gi
+
+pvc:
+  name: auth-pvc
+  storage: 1Gi
