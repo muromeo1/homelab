@@ -26,5 +26,8 @@ To expose my apps, I use [Cloudflare Tunnel](https://developers.cloudflare.com/c
 
 Currently, I'm running:
 
-- 🔒 [Vault](https://vault.casaos-31.com/#/login)
-- 🏠 [Homeassistant](https://homeassistant.casaos-31.com/)
+- 🔒 [Vault](https://vault.romeolab.uk/#/login)
+- 🏠 [Homeassistant](https://homeassistant.romeolab.uk)
+- 🙅🏻‍♂️ [Auth](https://auth.romeolab.uk/api)
+- 📉 [Grafana](https://grafana.romeolab.uk)
+- 🛢 [PostgreSQL](https://not_accessible.romeolab.uk)
