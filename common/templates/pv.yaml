@@ -6,7 +6,7 @@ spec:
   capacity:
     storage: {{ .Values.pv.storage }}
   accessModes:
-    - {{ default "ReadWriteMany" .Values.pv.accessModes }}
+    - {{ default "ReadWriteOnce" .Values.pv.accessModes }}
   persistentVolumeReclaimPolicy: Retain
   hostPath:
     path: {{ .Values.pv.path }}

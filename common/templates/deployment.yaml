@@ -14,14 +14,15 @@ spec:
       labels:
         app: {{ .Values.deployment.name }}
     spec:
-      securityContext:
-        runAsNonRoot: {{ .Values.deployment.runAsNonRoot }}
-        {{- if .Values.deployment.runAsUser }}
-        runAsUser: {{ .Values.deployment.runAsUser }}
-        {{- end }}
-        {{- if .Values.deployment.runAsGroup }}
-        runAsGroup: {{ .Values.deployment.runAsGroup }}
-        {{ end }}
+      {{- if .Values.deployment.fixPermissions }}
+      initContainers:
+        - name: fix-permissions
+          image: busybox
+          command: ["sh", "-c", {{ .Values.deployment.fixPermissions.command }}]
+          volumeMounts:
+            - name: {{ .Values.deployment.mountName }}
+              mountPath: {{ .Values.deployment.mountPath }}
+      {{- end }}
       containers:
         - name: {{ .Values.deployment.name }}
           image: {{ .Values.deployment.image }}
@@ -47,6 +48,13 @@ spec:
             capabilities:
               drop:
                 - ALL
+            runAsNonRoot: {{ default true .Values.deployment.runAsNonRoot }}
+            {{- if .Values.deployment.runAsUser }}
+            runAsUser: {{ .Values.deployment.runAsUser }}
+            {{- end }}
+            {{- if .Values.deployment.runAsGroup }}
+            runAsGroup: {{ .Values.deployment.runAsGroup }}
+            {{ end }}
             seccompProfile:
               type: RuntimeDefault
           {{- if .Values.deployment.args }}

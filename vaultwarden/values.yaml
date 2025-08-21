@@ -6,7 +6,7 @@ deployment:
   mountPath: /data
   env:
     - name: DOMAIN
-      value: "https://vault.casaos-31.com"
+      value: "https://vault.romeolab.uk"
   envSecrets:
     - name: ADMIN_TOKEN
       secretKeyRef:
@@ -18,7 +18,7 @@ service:
   internalPort: 80
 
 ingress:
-  host: vault.casaos-31.com
+  host: vault.romeolab.uk
 
 pv:
   name: vaultwarden-pv

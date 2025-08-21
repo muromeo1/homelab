@@ -4,7 +4,7 @@ metadata:
   name: {{ .Values.pvc.name }}
 spec:
   accessModes:
-    - {{ default "ReadWriteMany" .Values.pvc.accessModes }}
+    - {{ default "ReadWriteOnce" .Values.pvc.accessModes }}
   resources:
     requests:
       storage: {{ .Values.pvc.storage }}

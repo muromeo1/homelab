@@ -4,12 +4,14 @@ deployment:
   image: grafana/grafana:latest
   mountName: grafana-data
   mountPath: /var/lib/grafana
+  fixPermissions:
+    command: "chown -R 472:472 /var/lib/grafana"
 
 service:
   internalPort: 3000
 
 ingress:
-  host: grafana.casaos-31.com
+  host: grafana.romeolab.uk
 
 pv:
   name: grafana-pv
