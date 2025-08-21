@@ -28,7 +28,7 @@ service:
   internalPort: 8080
 
 ingress:
-  host: auth.casaos-31.com
+  host: auth.romeolab.uk
 
 pv:
   name: auth-pv
