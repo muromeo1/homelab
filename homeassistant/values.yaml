@@ -9,7 +9,7 @@ service:
   internalPort: 8123
 
 ingress:
-  host: homeassistant.casaos-31.com
+  host: homeassistant.romeolab.uk
 
 pv:
   name: homeassistant-pv

@@ -48,7 +48,7 @@ spec:
             capabilities:
               drop:
                 - ALL
-            runAsNonRoot: {{ default true .Values.deployment.runAsNonRoot }}
+            runAsNonRoot: {{ .Values.deployment.runAsNonRoot }}
             {{- if .Values.deployment.runAsUser }}
             runAsUser: {{ .Values.deployment.runAsUser }}
             {{- end }}
