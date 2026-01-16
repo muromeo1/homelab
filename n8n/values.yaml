@@ -1,0 +1,66 @@
+deployment:
+  name: n8n
+  replicas: 1
+  image: n8nio/n8n:latest
+  mountName: n8n-data
+  mountPath: /home/node/.n8n
+  runAsNonRoot: true
+  runAsUser: 1000
+  runAsGroup: 1000
+  fixPermissions:
+    command: "chown -R 1000:1000 /home/node/.n8n"
+  env:
+    - name: GENERIC_TIMEZONE
+      value: America/Sao_Paulo
+    - name: TZ
+      value: America/Sao_Paulo
+    - name: N8N_HOST
+      value: n8n.romeolab.uk
+    - name: N8N_PORT
+      value: "5678"
+    - name: N8N_PROTOCOL
+      value: https
+    - name: WEBHOOK_URL
+      value: https://n8n.romeolab.uk/
+    - name: N8N_ENFORCE_SETTINGS_FILE_PERMISSIONS
+      value: "true"
+    - name: N8N_RUNNERS_ENABLED
+      value: "true"
+    - name: DB_TYPE
+      value: postgresdb
+  envSecrets:
+    - name: DB_POSTGRESDB_HOST
+      secretKeyRef:
+        name: postgres-secret
+        key: POSTGRES_HOST
+    - name: DB_POSTGRESDB_PORT
+      secretKeyRef:
+        name: postgres-secret
+        key: POSTGRES_PORT
+    - name: DB_POSTGRESDB_DATABASE
+      secretKeyRef:
+        name: postgres-secret
+        key: POSTGRES_DB
+    - name: DB_POSTGRESDB_USER
+      secretKeyRef:
+        name: postgres-secret
+        key: POSTGRES_USER
+    - name: DB_POSTGRESDB_PASSWORD
+      secretKeyRef:
+        name: postgres-secret
+        key: POSTGRES_PASSWORD
+
+service:
+  internalPort: 5678
+
+ingress:
+  host: n8n.romeolab.uk
+
+pv:
+  name: n8n-pv
+  path: /var/mnt/data/n8n
+  storage: 1Gi
+
+pvc:
+  name: n8n-pvc
+  storage: 1Gi
