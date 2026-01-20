@@ -1,0 +1,35 @@
+deployment:
+  name: ntfy
+  replicas: 1
+  image: binwiederhier/ntfy:latest
+  mountName: ntfy-data
+  mountPath: /var/cache/ntfy
+  runAsNonRoot: false
+  args:
+    - serve
+  env:
+    - name: TZ
+      value: America/Sao_Paulo
+    - name: NTFY_BASE_URL
+      value: https://ntfy.romeolab.uk
+    - name: NTFY_UPSTREAM_BASE_URL
+      value: https://ntfy.sh
+    - name: NTFY_AUTH_FILE
+      value: /var/cache/ntfy/user.db
+    - name: NTFY_AUTH_DEFAULT_ACCESS
+      value: deny-all
+
+service:
+  internalPort: 80
+
+ingress:
+  host: ntfy.romeolab.uk
+
+pv:
+  name: ntfy-pv
+  path: /var/mnt/data/ntfy
+  storage: 1Gi
+
+pvc:
+  name: ntfy-pvc
+  storage: 1Gi
