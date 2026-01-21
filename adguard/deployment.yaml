@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: adguard
+  labels:
+    app: adguard
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: adguard
+  template:
+    metadata:
+      labels:
+        app: adguard
+    spec:
+      containers:
+        - name: adguard
+          image: adguard/adguardhome:latest
+          ports:
+            - name: dns-tcp
+              containerPort: 53
+              protocol: TCP
+            - name: dns-udp
+              containerPort: 53
+              protocol: UDP
+            - name: web-ui
+              containerPort: 80
+              protocol: TCP
+          env:
+            - name: TZ
+              value: America/Sao_Paulo
+          volumeMounts:
+            - name: adguard-data
+              mountPath: /opt/adguardhome/work
+              subPath: work
+            - name: adguard-data
+              mountPath: /opt/adguardhome/conf
+              subPath: conf
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              add:
+                - NET_BIND_SERVICE
+              drop:
+                - ALL
+            seccompProfile:
+              type: RuntimeDefault
+      volumes:
+        - name: adguard-data
+          persistentVolumeClaim:
+            claimName: adguard-pvc
