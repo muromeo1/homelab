@@ -28,6 +28,8 @@ deployment:
       value: "true"
     - name: DB_TYPE
       value: postgresdb
+    - name: NODE_FUNCTION_ALLOW_BUILTIN
+      value: "*"
   envSecrets:
     - name: DB_POSTGRESDB_HOST
       secretKeyRef:
