@@ -1,0 +1,40 @@
+deployment:
+  name: waha
+  replicas: 1
+  image: devlikeapro/waha:latest
+  mountName: waha-data
+  mountPath: /tmp/.sessions
+  runAsNonRoot: false
+  env:
+    - name: TZ
+      value: America/Sao_Paulo
+    - name: WHATSAPP_DEFAULT_ENGINE
+      value: WEBJS
+    - name: WHATSAPP_RESTART_ALL_SESSIONS
+      value: "true"
+    - name: WAHA_DASHBOARD_USERNAME
+      value: admin
+  envSecrets:
+    - name: WHATSAPP_API_KEY
+      secretKeyRef:
+        name: waha-secret
+        key: WHATSAPP_API_KEY
+    - name: WAHA_DASHBOARD_PASSWORD
+      secretKeyRef:
+        name: waha-secret
+        key: WAHA_DASHBOARD_PASSWORD
+
+service:
+  internalPort: 3000
+
+ingress:
+  host: waha.romeolab.uk
+
+pv:
+  name: waha-pv
+  path: /var/mnt/data/waha
+  storage: 1Gi
+
+pvc:
+  name: waha-pvc
+  storage: 1Gi

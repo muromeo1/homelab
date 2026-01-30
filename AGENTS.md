@@ -197,3 +197,4 @@ For these, create individual YAML files in `<service>/` directory.
 - All persistent data: `/var/mnt/data/<service>` on host
 - Reclaim policy: `Retain` (data preserved on PV deletion)
 - Access mode: `ReadWriteOnce` (single node mounting)
+- PV/PVC binding: The common chart uses `claimRef` in the PV to explicitly bind to the PVC (required since PVC uses `storageClassName: ""`)

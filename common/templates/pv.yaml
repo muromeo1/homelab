@@ -8,5 +8,8 @@ spec:
   accessModes:
     - {{ default "ReadWriteOnce" .Values.pv.accessModes }}
   persistentVolumeReclaimPolicy: Retain
+  claimRef:
+    name: {{ .Values.pvc.name }}
+    namespace: default
   hostPath:
     path: {{ .Values.pv.path }}
