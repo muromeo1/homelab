@@ -29,16 +29,16 @@ spec:
           ports:
             - containerPort: {{ .Values.service.internalPort }}
           env:
-            {{- range .Values.deployment.env }}
-            - name: {{ .name }}
-              value: {{ .value | quote }}
-            {{- end }}
             {{- range .Values.deployment.envSecrets }}
             - name: {{ .name }}
               valueFrom:
                 secretKeyRef:
                   name: {{ .secretKeyRef.name }}
                   key: {{ .secretKeyRef.key }}
+            {{- end }}
+            {{- range .Values.deployment.env }}
+            - name: {{ .name }}
+              value: {{ .value | quote }}
             {{- end }}
           volumeMounts:
             - name: {{ .Values.deployment.mountName }}
