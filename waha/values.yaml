@@ -5,6 +5,13 @@ deployment:
   mountName: waha-data
   mountPath: /tmp/.sessions
   runAsNonRoot: false
+  resources:
+    requests:
+      memory: "256Mi"
+      cpu: "100m"
+    limits:
+      memory: "512Mi"
+      cpu: "500m"
   env:
     - name: TZ
       value: America/Sao_Paulo
@@ -14,10 +21,8 @@ deployment:
       value: "true"
     - name: WAHA_DASHBOARD_USERNAME
       value: admin
-    - name: WAHA_WORKER_STORE
-      value: postgres
-    - name: WAHA_WORKER_STORE_POSTGRES_URL
-      value: "postgresql://$(POSTGRES_USER):$(POSTGRES_PASSWORD)@$(POSTGRES_HOST):$(POSTGRES_PORT)/waha"
+    - name: WAHA_WORKER_STORE_URL
+      value: "postgres://$(POSTGRES_USER):$(POSTGRES_PASSWORD)@$(POSTGRES_HOST):$(POSTGRES_PORT)/waha"
   envSecrets:
     - name: WHATSAPP_API_KEY
       secretKeyRef:

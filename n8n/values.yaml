@@ -9,6 +9,13 @@ deployment:
   runAsGroup: 1000
   fixPermissions:
     command: "chown -R 1000:1000 /home/node/.n8n"
+  resources:
+    requests:
+      memory: "256Mi"
+      cpu: "100m"
+    limits:
+      memory: "512Mi"
+      cpu: "500m"
   env:
     - name: GENERIC_TIMEZONE
       value: America/Sao_Paulo

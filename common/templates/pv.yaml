@@ -1,3 +1,4 @@
+{{- if .Values.pv }}
 apiVersion: v1
 kind: PersistentVolume
 metadata:
@@ -13,3 +14,4 @@ spec:
     namespace: default
   hostPath:
     path: {{ .Values.pv.path }}
+{{- end }}

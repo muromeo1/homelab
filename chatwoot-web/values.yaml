@@ -1,0 +1,62 @@
+deployment:
+  name: chatwoot-web
+  replicas: 1
+  image: chatwoot/chatwoot:latest
+  runAsNonRoot: false
+  disableSecurityContext: true
+  command:
+    - "docker/entrypoints/rails.sh"
+  args:
+    - "bundle"
+    - "exec"
+    - "rails"
+    - "s"
+    - "-p"
+    - "3000"
+    - "-b"
+    - "0.0.0.0"
+  resources:
+    requests:
+      memory: "512Mi"
+      cpu: "200m"
+    limits:
+      memory: "1Gi"
+      cpu: "1000m"
+  env:
+    - name: NODE_ENV
+      value: "production"
+    - name: RAILS_ENV
+      value: "production"
+    - name: INSTALLATION_ENV
+      value: "docker"
+    - name: FRONTEND_URL
+      value: "https://chatwoot.romeolab.uk"
+    - name: POSTGRES_HOST
+      value: "postgres"
+    - name: POSTGRES_PORT
+      value: "5432"
+    - name: POSTGRES_DATABASE
+      value: "chatwoot"
+    - name: POSTGRES_USERNAME
+      value: "postgres_user"
+    - name: REDIS_URL
+      value: "redis://redis:6379"
+    - name: DEFAULT_LOCALE
+      value: "pt_BR"
+    - name: ENABLE_ACCOUNT_SIGNUP
+      value: "false"
+  envSecrets:
+    - name: SECRET_KEY_BASE
+      secretKeyRef:
+        name: chatwoot-secret
+        key: SECRET_KEY_BASE
+    - name: POSTGRES_PASSWORD
+      secretKeyRef:
+        name: chatwoot-secret
+        key: POSTGRES_PASSWORD
+
+service:
+  internalPort: 3000
+
+ingress:
+  host: chatwoot.romeolab.uk

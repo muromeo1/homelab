@@ -40,9 +40,12 @@ spec:
             - name: {{ .name }}
               value: {{ .value | quote }}
             {{- end }}
+          {{- if .Values.deployment.mountName }}
           volumeMounts:
             - name: {{ .Values.deployment.mountName }}
               mountPath: {{ .Values.deployment.mountPath }}
+          {{- end }}
+          {{- if not .Values.deployment.disableSecurityContext }}
           securityContext:
             allowPrivilegeEscalation: false
             capabilities:
@@ -57,13 +60,43 @@ spec:
             {{ end }}
             seccompProfile:
               type: RuntimeDefault
+          {{- end }}
+          {{- if .Values.deployment.command }}
+          command:
+            {{- range .Values.deployment.command }}
+            - {{ . | quote }}
+            {{- end }}
+          {{- end }}
           {{- if .Values.deployment.args }}
           args:
             {{- range .Values.deployment.args }}
-            - {{ . }}
+            - {{ . | quote }}
             {{- end }}
           {{- end }}
+          {{- if .Values.deployment.resources }}
+          resources:
+            {{- if .Values.deployment.resources.requests }}
+            requests:
+              {{- if .Values.deployment.resources.requests.memory }}
+              memory: {{ .Values.deployment.resources.requests.memory | quote }}
+              {{- end }}
+              {{- if .Values.deployment.resources.requests.cpu }}
+              cpu: {{ .Values.deployment.resources.requests.cpu | quote }}
+              {{- end }}
+            {{- end }}
+            {{- if .Values.deployment.resources.limits }}
+            limits:
+              {{- if .Values.deployment.resources.limits.memory }}
+              memory: {{ .Values.deployment.resources.limits.memory | quote }}
+              {{- end }}
+              {{- if .Values.deployment.resources.limits.cpu }}
+              cpu: {{ .Values.deployment.resources.limits.cpu | quote }}
+              {{- end }}
+            {{- end }}
+          {{- end }}
+      {{- if .Values.deployment.mountName }}
       volumes:
         - name: {{ .Values.deployment.mountName }}
           persistentVolumeClaim:
             claimName: {{ .Values.pvc.name }}
+      {{- end }}

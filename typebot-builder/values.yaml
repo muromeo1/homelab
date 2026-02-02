@@ -1,0 +1,50 @@
+deployment:
+  name: typebot-builder
+  replicas: 1
+  image: baptistearno/typebot-builder:latest
+  runAsNonRoot: false
+  resources:
+    requests:
+      memory: "256Mi"
+      cpu: "100m"
+    limits:
+      memory: "512Mi"
+      cpu: "500m"
+  env:
+    - name: NEXTAUTH_URL
+      value: "https://typebot.romeolab.uk"
+    - name: NEXT_PUBLIC_VIEWER_URL
+      value: "https://bot.romeolab.uk"
+    - name: DEFAULT_WORKSPACE_PLAN
+      value: "UNLIMITED"
+  envSecrets:
+    - name: DATABASE_URL
+      secretKeyRef:
+        name: typebot-secret
+        key: DATABASE_URL
+    - name: ADMIN_EMAIL
+      secretKeyRef:
+        name: typebot-secret
+        key: ADMIN_EMAIL
+    - name: ENCRYPTION_SECRET
+      secretKeyRef:
+        name: typebot-secret
+        key: ENCRYPTION_SECRET
+    - name: NEXTAUTH_SECRET
+      secretKeyRef:
+        name: typebot-secret
+        key: NEXTAUTH_SECRET
+    - name: GITHUB_CLIENT_ID
+      secretKeyRef:
+        name: typebot-secret
+        key: GITHUB_CLIENT_ID
+    - name: GITHUB_CLIENT_SECRET
+      secretKeyRef:
+        name: typebot-secret
+        key: GITHUB_CLIENT_SECRET
+
+service:
+  internalPort: 3000
+
+ingress:
+  host: typebot.romeolab.uk

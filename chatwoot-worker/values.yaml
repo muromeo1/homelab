@@ -1,0 +1,48 @@
+deployment:
+  name: chatwoot-worker
+  replicas: 1
+  image: chatwoot/chatwoot:latest
+  runAsNonRoot: false
+  disableSecurityContext: true
+  args:
+    - "bundle"
+    - "exec"
+    - "sidekiq"
+    - "-C"
+    - "config/sidekiq.yml"
+  resources:
+    requests:
+      memory: "256Mi"
+      cpu: "100m"
+    limits:
+      memory: "512Mi"
+      cpu: "500m"
+  env:
+    - name: RAILS_ENV
+      value: "production"
+    - name: FRONTEND_URL
+      value: "https://chatwoot.romeolab.uk"
+    - name: POSTGRES_HOST
+      value: "postgres"
+    - name: POSTGRES_PORT
+      value: "5432"
+    - name: POSTGRES_DATABASE
+      value: "chatwoot"
+    - name: POSTGRES_USERNAME
+      value: "postgres_user"
+    - name: REDIS_URL
+      value: "redis://redis:6379"
+    - name: DEFAULT_LOCALE
+      value: "pt_BR"
+  envSecrets:
+    - name: SECRET_KEY_BASE
+      secretKeyRef:
+        name: chatwoot-secret
+        key: SECRET_KEY_BASE
+    - name: POSTGRES_PASSWORD
+      secretKeyRef:
+        name: chatwoot-secret
+        key: POSTGRES_PASSWORD
+
+service:
+  internalPort: 3000

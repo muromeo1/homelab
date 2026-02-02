@@ -1,0 +1,20 @@
+deployment:
+  name: redis
+  replicas: 1
+  image: redis:7-alpine
+  runAsNonRoot: false
+  disableSecurityContext: true
+  args:
+    - "redis-server"
+    - "--appendonly"
+    - "yes"
+  resources:
+    requests:
+      memory: "64Mi"
+      cpu: "50m"
+    limits:
+      memory: "256Mi"
+      cpu: "200m"
+
+service:
+  internalPort: 6379
