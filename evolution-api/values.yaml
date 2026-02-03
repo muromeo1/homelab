@@ -50,8 +50,8 @@ deployment:
       value: 2.3000.1028457684
     - name: CHATWOOT_ENABLED
       value: "true"
-    - name: CHATWOOT_IMPORT_DATABASE_CONNECTION_URI
-      value: "postgresql://$(POSTGRES_USER):$(POSTGRES_PASSWORD)@$(POSTGRES_HOST):$(POSTGRES_PORT)/chatwoot?sslmode=disable"
+    - name: TYPEBOT_ENABLED
+      value: "true"
 
   envSecrets:
     - name: AUTHENTICATION_API_KEY
