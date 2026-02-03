@@ -1,0 +1,89 @@
+deployment:
+  name: evolution-api
+  replicas: 1
+  image: atendai/evolution-api:v2.1.1
+  mountName: evolution-data
+  mountPath: /evolution/instances
+  runAsNonRoot: false
+  disableSecurityContext: true
+  resources:
+    requests:
+      memory: "512Mi"
+      cpu: "200m"
+    limits:
+      memory: "1Gi"
+      cpu: "1000m"
+  env:
+    - name: TZ
+      value: America/Sao_Paulo
+    - name: SERVER_URL
+      value: https://evolution-api.romeolab.uk
+    - name: SERVER_PORT
+      value: "8080"
+    - name: DATABASE_ENABLED
+      value: "true"
+    - name: DATABASE_PROVIDER
+      value: postgresql
+    - name: DATABASE_CONNECTION_URI
+      value: "postgresql://$(POSTGRES_USER):$(POSTGRES_PASSWORD)@$(POSTGRES_HOST):$(POSTGRES_PORT)/evolution"
+    - name: DATABASE_SAVE_DATA_INSTANCE
+      value: "true"
+    - name: DATABASE_SAVE_DATA_NEW_MESSAGE
+      value: "true"
+    - name: DATABASE_SAVE_MESSAGE_UPDATE
+      value: "true"
+    - name: DATABASE_SAVE_DATA_CONTACTS
+      value: "true"
+    - name: DATABASE_SAVE_DATA_CHATS
+      value: "true"
+    - name: CACHE_REDIS_ENABLED
+      value: "true"
+    - name: CACHE_REDIS_URI
+      value: "redis://redis:6379/6"
+    - name: CACHE_REDIS_PREFIX_KEY
+      value: evolution
+    - name: CACHE_REDIS_SAVE_INSTANCES
+      value: "true"
+    - name: AUTHENTICATION_TYPE
+      value: apikey
+    - name: CONFIG_SESSION_PHONE_VERSION
+      value: 2.3000.1028457684
+    - name: CHATWOOT_ENABLED
+      value: "true"
+
+  envSecrets:
+    - name: AUTHENTICATION_API_KEY
+      secretKeyRef:
+        name: evolution-api-secret
+        key: AUTHENTICATION_API_KEY
+    - name: POSTGRES_USER
+      secretKeyRef:
+        name: postgres-secret
+        key: POSTGRES_USER
+    - name: POSTGRES_PASSWORD
+      secretKeyRef:
+        name: postgres-secret
+        key: POSTGRES_PASSWORD
+    - name: POSTGRES_HOST
+      secretKeyRef:
+        name: postgres-secret
+        key: POSTGRES_HOST
+    - name: POSTGRES_PORT
+      secretKeyRef:
+        name: postgres-secret
+        key: POSTGRES_PORT
+
+service:
+  internalPort: 8080
+
+ingress:
+  host: evolution-api.romeolab.uk
+
+pv:
+  name: evolution-pv
+  path: /var/mnt/data/evolution
+  storage: 2Gi
+
+pvc:
+  name: evolution-pvc
+  storage: 2Gi
