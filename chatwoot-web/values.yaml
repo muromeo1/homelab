@@ -4,6 +4,8 @@ deployment:
   image: chatwoot/chatwoot:latest
   runAsNonRoot: false
   disableSecurityContext: true
+  mountName: chatwoot-storage
+  mountPath: /app/storage
   command:
     - "docker/entrypoints/rails.sh"
   args:
@@ -60,3 +62,14 @@ service:
 
 ingress:
   host: chatwoot.romeolab.uk
+
+pv:
+  name: chatwoot-pv
+  path: /var/mnt/data/chatwoot
+  storage: 10Gi
+  accessModes: ReadWriteOnce
+
+pvc:
+  name: chatwoot-pvc
+  storage: 10Gi
+  accessModes: ReadWriteOnce
