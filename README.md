@@ -31,3 +31,27 @@ Currently, I'm running:
 - 🙅🏻‍♂️ [Auth](https://auth.romeolab.uk/api)
 - 📉 [Grafana](https://grafana.romeolab.uk)
 - 🛢 [PostgreSQL](https://not_accessible.romeolab.uk)
+- 🤖 [n8n](https://n8n.romeolab.uk)
+- 💬 [Chatwoot](https://chatwoot.romeolab.uk)
+- 📱 [Evolution API](https://evolution-api.romeolab.uk)
+- 📱 [WAHA](https://waha.romeolab.uk)
+- 🤖 [Typebot Builder](https://typebot.romeolab.uk)
+- 🤖 [Typebot Viewer](https://bot.romeolab.uk)
+- 🔔 [ntfy](https://ntfy.romeolab.uk)
+- 🛡️ [AdGuard](https://not_accessible.romeolab.uk)
+- 🔴 [Redis](https://not_accessible.romeolab.uk)
+- ☁️ [Cloudflared](https://not_accessible.romeolab.uk)
+
+## Deploy
+
+To deploy a service, run:
+
+```bash
+make deploy <service-name>
+```
+
+Example:
+
+```bash
+make deploy typebot-builder
+```
