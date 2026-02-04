@@ -4,6 +4,8 @@ deployment:
   image: chatwoot/chatwoot:latest
   runAsNonRoot: false
   disableSecurityContext: true
+  mountName: chatwoot-storage
+  mountPath: /app/storage
   args:
     - "bundle"
     - "exec"
@@ -46,3 +48,6 @@ deployment:
 
 service:
   internalPort: 3000
+
+pvc:
+  name: chatwoot-pvc
