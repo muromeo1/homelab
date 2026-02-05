@@ -52,7 +52,8 @@ deployment:
       value: "true"
     - name: TYPEBOT_ENABLED
       value: "true"
-
+    - name: FRONTEND_URL
+      value: https://evolution-api.romeolab.uk
   envSecrets:
     - name: AUTHENTICATION_API_KEY
       secretKeyRef:
