@@ -1,6 +1,6 @@
 deployment:
   name: chatwoot-web
-  replicas: 1
+  replicas: 2
   image: chatwoot/chatwoot:latest
   runAsNonRoot: false
   disableSecurityContext: true
