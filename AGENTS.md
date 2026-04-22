@@ -54,7 +54,7 @@ helm install -f <service>/values.yaml <service> ./common/
 helm upgrade -f <service>/values.yaml <service> ./common/
 
 # Examples
-helm install -f grafana/values.yaml grafana ./common/
+helm install -f n8n/values.yaml n8n ./common/
 helm upgrade -f n8n/values.yaml n8n ./common/
 ```
 
@@ -130,14 +130,14 @@ pvc:
 
 | Resource | Pattern | Example |
 |----------|---------|---------|
-| Directory | `<service>/` | `grafana/` |
-| Values file | `<service>/values.yaml` | `grafana/values.yaml` |
-| Deployment name | `<service>` | `grafana` |
-| PersistentVolume | `<service>-pv` | `grafana-pv` |
-| PersistentVolumeClaim | `<service>-pvc` | `grafana-pvc` |
-| Volume mount | `<service>-data` | `grafana-data` |
-| Host path | `/var/mnt/data/<service>` | `/var/mnt/data/grafana` |
-| Ingress host | `<service>.romeolab.uk` | `grafana.romeolab.uk` |
+| Directory | `<service>/` | `n8n/` |
+| Values file | `<service>/values.yaml` | `n8n/values.yaml` |
+| Deployment name | `<service>` | `n8n` |
+| PersistentVolume | `<service>-pv` | `n8n-pv` |
+| PersistentVolumeClaim | `<service>-pvc` | `n8n-pvc` |
+| Volume mount | `<service>-data` | `n8n-data` |
+| Host path | `/var/mnt/data/<service>` | `/var/mnt/data/n8n` |
+| Ingress host | `<service>.romeolab.uk` | `n8n.romeolab.uk` |
 
 ### Security Requirements
 
@@ -168,7 +168,7 @@ envSecrets:
 ### Image Tags
 
 - Use specific version tags for production services: `muromeo/auth:1.1.0`
-- Use `latest` only for well-established upstream images: `grafana/grafana:latest`
+- Use `latest` only for well-established upstream images: `library/redis:latest`
 
 ## Adding a New Service
 

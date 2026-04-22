@@ -29,29 +29,32 @@ Currently, I'm running:
 - 🔒 [Vault](https://vault.romeolab.uk/#/login)
 - 🏠 [Homeassistant](https://homeassistant.romeolab.uk)
 - 🙅🏻‍♂️ [Auth](https://auth.romeolab.uk/api)
-- 📉 [Grafana](https://grafana.romeolab.uk)
 - 🛢 [PostgreSQL](https://not_accessible.romeolab.uk)
 - 🤖 [n8n](https://n8n.romeolab.uk)
 - 💬 [Chatwoot](https://chatwoot.romeolab.uk)
 - 📱 [Evolution API](https://evolution-api.romeolab.uk)
-- 📱 [WAHA](https://waha.romeolab.uk)
-- 🤖 [Typebot Builder](https://typebot.romeolab.uk)
-- 🤖 [Typebot Viewer](https://bot.romeolab.uk)
 - 🔔 [ntfy](https://ntfy.romeolab.uk)
-- 🛡️ [AdGuard](https://not_accessible.romeolab.uk)
+- 🐾 [picoclaw](https://picoclaw.romeolab.uk)
 - 🔴 [Redis](https://not_accessible.romeolab.uk)
 - ☁️ [Cloudflared](https://not_accessible.romeolab.uk)
 
 ## Deploy
 
-To deploy a service, run:
+Install a new service:
 
 ```bash
-make deploy <service-name>
+make install <service-name>
+```
+
+Upgrade an existing service:
+
+```bash
+make upgrade <service-name>
 ```
 
 Example:
 
 ```bash
-make deploy typebot-builder
+make install n8n
+make upgrade n8n
 ```

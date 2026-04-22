@@ -1,0 +1,39 @@
+deployment:
+  name: picoclaw
+  replicas: 1
+  image: docker.io/sipeed/picoclaw:launcher
+  mountName: picoclaw-data
+  mountPath: /root/.picoclaw
+  runAsNonRoot: false
+  resources:
+    requests:
+      memory: "64Mi"
+      cpu: "50m"
+    limits:
+      memory: "128Mi"
+      cpu: "200m"
+  env:
+    - name: TZ
+      value: America/Sao_Paulo
+    - name: PICOCLAW_GATEWAY_HOST
+      value: "0.0.0.0"
+  envSecrets:
+    - name: PICOCLAW_LAUNCHER_TOKEN
+      secretKeyRef:
+        name: picoclaw-secret
+        key: LAUNCHER_TOKEN
+
+service:
+  internalPort: 18800
+
+ingress:
+  host: picoclaw.romeolab.uk
+
+pv:
+  name: picoclaw-pv
+  path: /var/mnt/data/picoclaw-data
+  storage: 1Gi
+
+pvc:
+  name: picoclaw-pvc
+  storage: 1Gi
