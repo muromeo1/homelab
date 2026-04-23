@@ -1,0 +1,51 @@
+deployment:
+  name: openclaw
+  replicas: 1
+  image: ghcr.io/openclaw/openclaw:latest
+  mountName: openclaw-data
+  mountPath: /home/node/.openclaw
+  runAsNonRoot: true
+  runAsUser: 1000
+  runAsGroup: 1000
+  fixPermissions:
+    command: 'chown -R 1000:1000 /home/node/.openclaw && [ ! -f /home/node/.openclaw/openclaw.json ] && printf ''%s'' ''{"gateway":{"mode":"local","bind":"lan","controlUi":{"allowedOrigins":["https://openclaw.romeolab.uk"]}}}'' > /home/node/.openclaw/openclaw.json || true'
+  resources:
+    requests:
+      memory: "512Mi"
+      cpu: "500m"
+    limits:
+      memory: "2Gi"
+      cpu: "2500m"
+  args:
+    - "dist/index.js"
+    - "gateway"
+    - "--bind"
+    - "lan"
+    - "--port"
+    - "18789"
+    - "--allow-unconfigured"
+  env:
+    - name: HOME
+      value: /home/node
+    - name: TZ
+      value: America/Sao_Paulo
+  envSecrets:
+    - name: OPENCLAW_GATEWAY_TOKEN
+      secretKeyRef:
+        name: openclaw-secret
+        key: OPENCLAW_GATEWAY_TOKEN
+
+service:
+  internalPort: 18789
+
+ingress:
+  host: openclaw.romeolab.uk
+
+pv:
+  name: openclaw-pv
+  path: /var/mnt/data/openclaw-data
+  storage: 2Gi
+
+pvc:
+  name: openclaw-pvc
+  storage: 2Gi
