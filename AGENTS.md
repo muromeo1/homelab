@@ -104,9 +104,11 @@ deployment:
   runAsGroup: <gid>              # Optional: numeric GID
   fixPermissions:                # Optional: initContainer for chown
     command: "chown -R uid:gid /path"
+  shell: true|false              # Optional: replace main container with `sleep infinity` for interactive setup
   env: []                        # Optional: plain env vars
   envSecrets: []                 # Optional: env from secrets
-  args: []                       # Optional: container arguments
+  command: []                    # Optional: container command (ignored when shell: true)
+  args: []                       # Optional: container arguments (ignored when shell: true)
 
 service:
   internalPort: <port>           # Required: container port
@@ -176,6 +178,25 @@ envSecrets:
 2. Create `<service>/values.yaml` following the structure above
 3. Create any required Kubernetes secrets manually
 4. Deploy: `helm install -f <service>/values.yaml <service> ./common/`
+
+## Interactive Shell Mode (`deployment.shell`)
+
+For services that require manual first-run setup (writing config files, generating credentials, running an `onboard` command), set `deployment.shell: true` in `values.yaml`. This replaces the main container's command with `sh -c "sleep infinity"` while keeping the same image, environment, volumes, and security context.
+
+Workflow:
+
+```bash
+# 1. Set deployment.shell: true and deploy
+helm install -f <service>/values.yaml <service> ./common/
+
+# 2. Exec into the pod and run setup
+kubectl exec -it deploy/<service> -- sh
+
+# 3. Set deployment.shell: false (or remove the flag) and upgrade
+helm upgrade -f <service>/values.yaml <service> ./common/
+```
+
+When `shell: true`, any `deployment.command` and `deployment.args` values are ignored.
 
 ## Services Not Using Common Chart
 
